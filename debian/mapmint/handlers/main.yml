@@ -1,0 +1,4 @@
+---
+- name: Restart LibreOffice Server
+  service: name=mapmint-libreoffice-server state=restarted
+

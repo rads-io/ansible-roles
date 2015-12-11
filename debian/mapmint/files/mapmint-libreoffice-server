@@ -1,0 +1,51 @@
+#!/bin/sh
+# Start/stop the MapMint LibreOffice Server.
+#
+### BEGIN INIT INFO
+# Provides:          LibreOffice Server
+# Required-Start:    $remote_fs $syslog $time $network
+# Required-Stop:     $remote_fs $syslog $time $network
+# Should-Start:      $network $named slapd autofs ypbind nscd nslcd winbind
+# Should-Stop:       $network $named slapd autofs ypbind nscd nslcd winbind
+# Default-Start:     3 4 5
+# Default-Stop:
+# Short-Description: LibreOffice Server to generate documents
+# Description:       LibreOffice Server is used in MapMint by the print and indocators modules 
+### END INIT INFO
+
+PATH=/bin:/usr/bin:/sbin:/usr/sbin
+DESC="LibreOffice Server"
+NAME=mapmint-libreoffice-server
+DAEMON=/opt/libreoffice5.0/program/soffice
+PIDFILE=/var/run/soffice.pid
+SCRIPTNAME=/etc/init.d/"$NAME"
+
+test -f $DAEMON || exit 0
+
+
+case "$1" in
+start)	echo "Starting" "LibreOffice Server"
+	Xvfb :11& sleep 1; export DISPLAY=:11; $DAEMON --nofirststartwizard --norestore --nocrashreport --headless --accept="socket,host=127.0.0.1,port=3662;urp" & sleep 0
+	echo $(ps axvfww | grep soffice | awk {'print $1'}) > $PIDFILE
+        exit $?
+	;;
+stop)	echo "Stopping" "LibreOffice Server"
+	for i in Xvfb soffice; do
+	    kill -9 $(ps axvfwww | grep $i | awk {'print $1'}) 2> /tmp/mmlo.log
+	done
+        RETVAL=$?
+        [ $RETVAL -eq 0 ] && [ -e "$PIDFILE" ] && rm -f $PIDFILE
+        exit $RETVAL
+        ;;
+restart) echo "Restarting" "LibreOffice Server" 
+        $0 stop
+        $0 start
+        ;;
+status)
+        echo $(netstat -na | grep 3662) && exit 0 || exit $?
+        ;;
+*)	echo "Usage: /etc/init.d/mapmint-libreoffice-server {start|stop|status|restart}"
+        exit 2
+        ;;
+esac
+exit 0

@@ -1,0 +1,6 @@
+---
+serverid: myhost.net
+srcdir: /home/src
+datadir: /var/data
+rootdir: /var/www/html
+indicators: false

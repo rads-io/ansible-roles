@@ -1,0 +1,1 @@
+<connection><dbname>mmdb</dbname><user>postgres</user><password>nopassword</password><host>/var/run/postgresql/</host><port>5432</port></connection>
