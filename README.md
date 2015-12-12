@@ -2,7 +2,8 @@
 MapMint installer
 
 Use [ansible](http://www.ansible.com/) to deploy a MapMint instance on
-[Debian Jessie 8.2](https://www.debian.org/releases/stable/).
+[Debian Jessie 8.2](https://www.debian.org/releases/stable/)  and
+[Ubuntu 14.04.3 LTS](http://www.ubuntu.com/download/server).
 
 Edit the ```debian/dependencies/vars/main.yml``` and set the ```serverid```
 variable to ```<HOST>:<PORT>``` where ```<HOST>``` and ```<PORT>```are
