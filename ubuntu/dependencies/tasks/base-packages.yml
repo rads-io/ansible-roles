@@ -1,0 +1,49 @@
+---
+- name: Update APT index
+  apt: update_cache=yes
+
+- name: Install Dependencies packages
+  apt: pkg={{item}} state=installed
+  with_items:
+      - flex
+      - bison
+      - libxml2
+      - curl
+      - openssl
+      - autoconf
+      - apache2
+      - python-software-properties
+      - subversion
+      - git
+      - python-cheetah
+      - cssmin
+      - python-psycopg2
+      - python-gdal
+      - python-libxslt1
+      - postgresql
+      - postgis
+      - r-base
+      - r-cran-class
+      - postgresql-9.3-postgis-2.1
+      - xsltproc
+      - cmake
+      - gdal-bin
+      - libapache2-mod-fcgid
+      - ghostscript
+      - xvfb
+      - python-rpy2
+      - build-essential
+      - zlib1g-dev
+      - libxslt1-dev
+      - libxml2-dev
+      - python-dev
+      - python-setuptools
+      - libcairo2-dev
+      - apache2-dev
+      - libproj-dev
+      - libgdal1-dev
+      - libfreetype6-dev
+      - libgeos-dev
+      - libfcgi-dev
+      - libmozjs185-dev
+  register: packagesinstalled

@@ -1,6 +1,6 @@
 ---
 - name: Restart LibreOffice Server
-  shell: /etc/init.d/mapmint-libreoffice-server restart
+  service: name=mapmint-libreoffice-server pattern=/etc/init.d/mapmint-libreoffice-server state=started
 
 - name: Reload PostgreSQL
   service: name=postgresql state=reloaded

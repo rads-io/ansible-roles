@@ -1,0 +1,19 @@
+---
+- name: Download MapCache
+  when: mapserverinstalled|success
+  git: repo=https://github.com/mapserver/mapcache.git
+       dest={{srcdir}}/mapcache
+  register: mapcachedownloaded
+
+- copy: src=files/etc/ld.so.conf.d/zoo-project.conf dest=/etc/ld.so.conf.d/zoo-project.conf
+
+- name: Build and Install MapCache
+  when: mapcachedownloaded|success
+  shell: cd {{srcdir}}/mapcache/ ; cmake . && make && make install && cp /usr/local/bin/mapcache.fcgi /usr/lib/cgi-bin/mm/
+  notify:
+    - Update ldconfig
+  register: mapcacheinstalled
+
+- name: Download init mapcache.xml
+  get_url: url=http://geolabs.fr/dl/mapcache.xml dest=/usr/lib/cgi-bin/mm/mapcache.xml
+

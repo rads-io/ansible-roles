@@ -1,62 +1,12 @@
 ---
-- name: Update APT index
-  apt: update_cache=yes
-
-- name: Install Dependencies packages
-  apt: pkg={{item}} state=installed
-  with_items:
-      - flex
-      - bison
-      - libxml2
-      - curl
-      - openssl
-      - autoconf
-      - apache2
-      - python-software-properties
-      - subversion
-      - git
-      - python-cheetah
-      - cssmin
-      - python-psycopg2
-      - python-gdal
-      - python-libxslt1
-      - postgresql
-      - postgis
-      - r-base
-      - r-cran-e1071
-      - xsltproc
-      - cmake
-      - gdal-bin
-      - libapache2-mod-fcgid
-      - ghostscript
-      - xvfb
-      - python-rpy2
-      - build-essential
-      - zlib1g-dev
-      - libxslt1-dev
-      - libxml2-dev
-      - python-dev
-      - python-setuptools
-      - libcairo2-dev
-      - apache2-dev
-      - libproj-dev
-      - libgdal1-dev
-      - libfreetype6-dev
-      - libgeos-dev
-      - libfcgi-dev
-      - libmozjs185-dev
-  register: packagesinstalled
+- include: base-packages.yml
 
 - name: Create SRC direcrtory
   when: packagesinstalled|success
   file: dest={{srcdir}} mode=775 state=directory owner=www-data group=www-data
   register: srcdircreated
 
-- name: Download classInt r-cran package
-  get_url: url=https://cran.r-project.org/src/contrib/classInt_0.1-23.tar.gz dest={{srcdir}}/classInt_0.1-23.tar.gz
-
-- name: Install classInt r-cran package
-  shell: cd {{srcdir}}; R CMD INSTALL classInt_0.1-23.tar.gz
+- include: r-cran.yml
 
 - name: Download MapMint
   when: srcdircreated|success
@@ -66,32 +16,6 @@
 
 - file: src={{srcdir}}/mapmint/mapmint-services dest=/usr/lib/cgi-bin/mm state=link owner=root group=root
 
-- file: dest={{rootdir}}/tmp/ state=directory owner=www-data group=www-data
+- include: mapserver.yml
 
-- name: Download MapServer-6.2.0
-  get_url: url=http://download.osgeo.org/mapserver/mapserver-6.2.0.tar.gz dest={{srcdir}}/mapserver-6.2.0.tar.gz
-
-- name: Build and Install MapServer-6.2.0 for MapMint
-  when: srcdircreated|success
-  shell: cd {{srcdir}} && tar -xf mapserver-6.2.0.tar.gz && cd mapserver-6.2.0 && ./configure --with-wfs --with-python --with-freetype=/usr/ --with-ogr --with-gdal --with-proj --with-geos --with-cairo --with-kml --with-wmsclient --with-wfsclient --with-wcs --with-sos --with-python=/usr/bin/python2.7 --without-gif --with-apache-module --with-apxs=/usr/bin/apxs2 --with-apr-config=/usr/bin/apr-1-config --enable-python-mapscript --with-zlib --prefix=/usr/ && sed "s:mapserver-6.2.0-mm/::g;s:mapserver-6.2.0/::g" -i ../mapmint/thirds/ms-6.2.0-full.patch && patch -p0 < ../mapmint/thirds/ms-6.2.0-full.patch && make && make install && cp /usr/bin/mapserv /usr/lib/cgi-bin/mm/mapserv.cgi
-  register: mapserverinstalled
-
-- name: Download MapCache
-  when: mapserverinstalled|success
-  git: repo=https://github.com/mapserver/mapcache.git
-       dest={{srcdir}}/mapcache
-  register: mapcachedownloaded
-
-- copy: src=files/etc/ld.so.conf.d/zoo-project.conf dest=/etc/ld.so.conf.d/zoo-project.conf
-
-- name: Build and Install MapCache
-  when: mapcachedownloaded|success
-  shell: cd {{srcdir}}/mapcache/ ; cmake . && make && make install && cp /usr/local/bin/mapcache.fcgi /usr/lib/cgi-bin/mm/
-  notify:
-    - Update ldconfig
-  register: mapcacheinstalled
-
-- name: Download init mapcache.xml
-  get_url: url=http://geolabs.fr/dl/mapcache.xml dest=/usr/lib/cgi-bin/mm/mapcache.xml
-
-
+- include: mapcache.yml

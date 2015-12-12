@@ -3,5 +3,5 @@ serverid: myhost.net
 srcdir: /home/src
 datadir: /var/data
 rootdir: /var/www/html
-pgvers: 9.4
+pgvers: 9.3
 indicators: false

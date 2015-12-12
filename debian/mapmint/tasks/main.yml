@@ -74,7 +74,7 @@
   get_url: url=http://geolabs.fr/dl/mm.db dest={{datadir}}/mm.db
 
 - name: Trust auth for local access
-  copy: src=files/pg_hba.conf dest=/etc/postgresql/9.4/main/pg_hba.conf
+  copy: src=files/pg_hba.conf dest=/etc/postgresql/{{pgvers}}/main/pg_hba.conf
   notify:
     - Reload PostgreSQL
 
@@ -140,6 +140,7 @@
   with_items:
       - "{{datadir}}"
       - "{{rootdir}}/pm/styles"
+      - "{{rootdir}}/tmp"
 
 - name: Create the ZOO-Kernel main.cfg
   template: src=main.cfg.j2 dest=/usr/lib/cgi-bin/mm/main.cfg owner=www-data group=www-data
@@ -169,8 +170,12 @@
   with_items:
       - /usr/lib/cgi-bin/mm/main.cfg
       - /usr/lib/cgi-bin/mm/mapcache.xml
+      - /var/www/html/tmp/MainDescriptionMM1441755467.html
 
 - name: Add execute privileges to required files
   file: dest={{item}} mode=775 state=touch owner=root group=root
   with_items:
       - /etc/init.d/mapmint-libreoffice-server
+  notify:
+    - Restart LibreOffice Server
+
