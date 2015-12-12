@@ -4,7 +4,7 @@
   register: zookdownloaded
 
 - name: Fix the ZOO-Kernel version to latest-trunk
-  shell: sed "s:`svnversion`:$(LC_ALL="en_US" svn info http://zoo-project.org/svn/trunk | grep "Rev:" | awk {'print $2'}):g" -i {{srcdir}}/zoo/zoo-project/zoo-kernel/Makefile.in
+  shell: sed "s:\`svnversion\`:$(LC_ALL="C" svn info http://zoo-project.org/svn/trunk | grep "Rev:" | cut -d':' -f2):g" -i {{srcdir}}/zoo/zoo-project/zoo-kernel/Makefile.in
   register: zookdownloaded
 
 - name: Build and Install ZOO-Kernel from ZOO-Project
