@@ -152,13 +152,13 @@
   unarchive: copy=no src={{datadir}}/fonts.tar.bz2 dest={{datadir}}/fonts
 
 - name: Download LibreOffice
-  get_url: url=http://download.documentfoundation.org/libreoffice/stable/5.0.3/deb/x86_64/LibreOffice_5.0.3_Linux_x86-64_deb.tar.gz dest={{srcdir}}
+  get_url: url=http://download.documentfoundation.org/libreoffice/stable/5.0.4/deb/x86_64/LibreOffice_5.0.4_Linux_x86-64_deb.tar.gz dest={{srcdir}}
 
 - name: Uncompress LibreOffice 
-  unarchive: copy=no src={{srcdir}}/LibreOffice_5.0.3_Linux_x86-64_deb.tar.gz dest={{srcdir}}/ owner=www-data
+  unarchive: copy=no src={{srcdir}}/LibreOffice_5.0.4_Linux_x86-64_deb.tar.gz dest={{srcdir}}/ owner=www-data
 
 - name: Install LibreOffice
-  shell: cd {{srcdir}}/LibreOffice_5.0.3.2_Linux_x86-64_deb/DEBS ; dpkg -i *.deb
+  shell: cd {{srcdir}}/LibreOffice_5.0.4.2_Linux_x86-64_deb/DEBS ; dpkg -i *.deb
 
 - name: Install LibreOffice Server init script
   copy: src=files/mapmint-libreoffice-server dest=/etc/init.d/mapmint-libreoffice-server
