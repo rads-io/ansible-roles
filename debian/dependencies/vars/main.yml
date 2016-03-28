@@ -5,3 +5,4 @@ datadir: /var/data
 rootdir: /var/www/html
 pgvers: 9.4
 indicators: false
+lo_version: 5.0.5
