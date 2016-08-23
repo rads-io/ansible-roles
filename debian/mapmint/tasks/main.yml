@@ -158,7 +158,7 @@
   unarchive: copy=no src={{srcdir}}/LibreOffice_{{lo_version}}_Linux_x86-64_deb.tar.gz dest={{srcdir}}/ owner=www-data
 
 - name: Install LibreOffice
-  shell: cd {{srcdir}}/LibreOffice_{{lo_version}}.2_Linux_x86-64_deb/DEBS ; dpkg -i *.deb
+  shell: cd {{srcdir}}/LibreOffice_{{lo_version}}.3_Linux_x86-64_deb/DEBS ; dpkg -i *.deb
 
 - name: Install LibreOffice Server init script
   copy: src=mapmint/files/mapmint-libreoffice-server dest=/etc/init.d/mapmint-libreoffice-server
