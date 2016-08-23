@@ -3,6 +3,6 @@ serverid: myhost.net
 srcdir: /home/src
 datadir: /var/data
 rootdir: /var/www/html
-pgvers: 9.3
+pgvers: 9.5
 indicators: false
 lo_version: 5.0.5

@@ -5,7 +5,7 @@
        dest={{srcdir}}/mapcache
   register: mapcachedownloaded
 
-- copy: src=files/etc/ld.so.conf.d/zoo-project.conf dest=/etc/ld.so.conf.d/zoo-project.conf
+- copy: src=dependencies/files/etc/ld.so.conf.d/zoo-project.conf dest=/etc/ld.so.conf.d/zoo-project.conf
 
 - name: Build and Install MapCache
   when: mapcachedownloaded|success

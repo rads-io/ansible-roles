@@ -42,12 +42,12 @@
   shell: cd {{srcdir}}/mapmint/mapmint-services; for i in *-src ; do echo $i; cd $i; autoconf; ./configure --with-zoo-kernel={{srcdir}}/zoo/zoo-project/zoo-kernel --with-mapserver={{srcdir}}/mapserver-6.2.0 ; make ; cd .. ; done
   register: zoomcsinstalled
 
-- copy: src=files/apache2.conf dest=/etc/apache2/apache2.conf
+- copy: src=mapmint/files/apache2.conf dest=/etc/apache2/apache2.conf
 
 - shell: sed "s:+SymLinksIfOwnerMatch:+FollowSymLinks:g" -i /etc/apache2/conf-available/serve-cgi-bin.conf
 
 - name: Create .htaccess files
-  copy: src=files/{{item}}.htaccess dest={{srcdir}}/mapmint/mapmint-ui/{{item}}/.htaccess
+  copy: src=mapmint/files/{{item}}.htaccess dest={{srcdir}}/mapmint/mapmint-ui/{{item}}/.htaccess
   with_items:
       - 
       - img
@@ -74,7 +74,7 @@
   get_url: url=http://geolabs.fr/dl/mm.db dest={{datadir}}/mm.db
 
 - name: Trust auth for local access
-  copy: src=files/pg_hba.conf dest=/etc/postgresql/{{pgvers}}/main/pg_hba.conf
+  copy: src=mapmint/files/pg_hba.conf dest=/etc/postgresql/{{pgvers}}/main/pg_hba.conf
   notify:
     - Reload PostgreSQL
 
@@ -127,7 +127,7 @@
   unarchive: copy=no src={{srcdir}}/mapmint/template/data.tar.bz2 dest={{datadir}}/ owner=www-data
 
 - name: Create MapMint default database datastore
-  copy: src=files/mmdb.xml dest={{datadir}}/PostGIS/mmdb.xml 
+  copy: src=mapmint/files/mmdb.xml dest={{datadir}}/PostGIS/mmdb.xml 
 
 - name: Import sn.pbf in the database
   shell: ogr2ogr -f PostgreSQL "$(xsltproc {{datadir}}/PostGIS/conn.xsl {{datadir}}/PostGIS/mmdb.xml)" {{datadir}}/SN/sn.pbf
@@ -161,7 +161,7 @@
   shell: cd {{srcdir}}/LibreOffice_{{lo_version}}.2_Linux_x86-64_deb/DEBS ; dpkg -i *.deb
 
 - name: Install LibreOffice Server init script
-  copy: src=files/mapmint-libreoffice-server dest=/etc/init.d/mapmint-libreoffice-server
+  copy: src=mapmint/files/mapmint-libreoffice-server dest=/etc/init.d/mapmint-libreoffice-server
   notify:
     - Restart LibreOffice Server
 
