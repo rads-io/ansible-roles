@@ -16,7 +16,7 @@
 PATH=/bin:/usr/bin:/sbin:/usr/sbin
 DESC="LibreOffice Server"
 NAME=mapmint-libreoffice-server
-DAEMON=/opt/libreoffice5.0/program/soffice
+DAEMON=$(find /opt/libreoffice*/program/ -name soffice)
 PIDFILE=/var/run/soffice.pid
 SCRIPTNAME=/etc/init.d/"$NAME"
 

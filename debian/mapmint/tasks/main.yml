@@ -23,7 +23,8 @@
   register: zoogsinstalled
 
 - name: Download the qrencode library source code
-  get_url: url=http://fukuchi.org/works/qrencode/qrencode-3.4.1.tar.gz dest={{srcdir}}/qrencode-3.4.1.tar.gz
+#  get_url: url=http://fukuchi.org/works/qrencode/qrencode-3.4.1.tar.gz dest={{srcdir}}/qrencode-3.4.1.tar.gz
+  shell: wget http://fukuchi.org/works/qrencode/qrencode-3.4.1.tar.gz -O {{srcdir}}/qrencode-3.4.1.tar.gz
 
 - name: Download, build and install the qrencode library / binaries
   when: zoogsinstalled
@@ -93,7 +94,7 @@
 
 - name: Create initial PG Database
   when: pgrestarted|success
-  shell: export PGUSER=postgres; psql mmdb -f {{srcdir}}/mapmint/template/sql/mmdb.sql && psql mmdb -f {{srcdir}}/mapmint/template/sql/indicators.sql
+  shell: export PGUSER=postgres; psql mmdb -f {{srcdir}}/mapmint/template/sql/mmdb.sql && psql mmdb -f {{srcdir}}/mapmint/template/sql/indicators.sql && psql mmdb -f {{srcdir}}/mapmint/template/sql/tables.sql
 
 
 - name: Download minimal Senegal dataset
@@ -140,7 +141,7 @@
   with_items:
       - "{{datadir}}"
       - "{{rootdir}}/pm/styles"
-      - "{{rootdir}}/tmp"
+#      - "{{rootdir}}/tmp"
 
 - name: Create the ZOO-Kernel main.cfg
   template: src=main.cfg.j2 dest=/usr/lib/cgi-bin/mm/main.cfg owner=www-data group=www-data
@@ -158,7 +159,7 @@
   unarchive: copy=no src={{srcdir}}/LibreOffice_{{lo_version}}_Linux_x86-64_deb.tar.gz dest={{srcdir}}/ owner=www-data
 
 - name: Install LibreOffice
-  shell: cd {{srcdir}}/LibreOffice_{{lo_version}}.3_Linux_x86-64_deb/DEBS ; dpkg -i *.deb
+  shell: cd {{srcdir}}/LibreOffice_{{lo_version}}.*_Linux_x86-64_deb/DEBS ; dpkg -i *.deb
 
 - name: Install LibreOffice Server init script
   copy: src=mapmint/files/mapmint-libreoffice-server dest=/etc/init.d/mapmint-libreoffice-server
