@@ -24,7 +24,7 @@
       - postgis
       - r-base
       - r-cran-class
-      - postgresql-9.5-postgis-2.2
+      - postgresql-9.3-postgis-2.2
       - xsltproc
       - cmake
       - gdal-bin

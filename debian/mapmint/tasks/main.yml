@@ -9,7 +9,7 @@
 
 - name: Build and Install ZOO-Kernel from ZOO-Project
   when: zookdownloaded|success
-  shell: cd {{srcdir}}/zoo/thirds/cgic206 && sed "s:lib64:lib:g" -i Makefile && make && cd {{srcdir}}/zoo/zoo-project/zoo-kernel && autoconf && ./configure --with-mapserver={{srcdir}}/mapserver-6.2.0/ --with-python --with-pyvers=2.7 --with-js=/usr/ --with-xsltconfig=/usr/bin/xslt-config &&  sed "s:/usr/lib/x86_64-linux-gnu/libapr-1.la::g" -i ZOOMakefile.opts && make &&  make install &&  ldconfig && cp zoo_loader.cgi ../../../mapmint/mapmint-services/
+  shell: cd {{srcdir}}/zoo/thirds/cgic206 && sed "s:lib64:lib:g" -i Makefile && make && cd {{srcdir}}/zoo/zoo-project/zoo-kernel && autoconf && ./configure --with-mapserver={{srcdir}}/mapserver-6.2.0/ --with-python --with-pyvers=2.7 --with-js=/usr/ --with-xsltconfig=/usr/bin/xslt-config &&  sed "s:/usr/lib/x86_64-linux-gnu/libapr-1.la::g;s:/usr/lib/i386-linux-gnu/libapr-1.la::g" -i ZOOMakefile.opts && make &&  make install &&  ldconfig && cp zoo_loader.cgi ../../../mapmint/mapmint-services/
   register: zookinstalled
 
 - name: Build and Install OGR ZOO-Services from ZOO-Project
@@ -153,13 +153,13 @@
   unarchive: copy=no src={{datadir}}/fonts.tar.bz2 dest={{datadir}}/fonts
 
 - name: Download LibreOffice
-  get_url: url=http://download.documentfoundation.org/libreoffice/stable/{{lo_version}}/deb/x86_64/LibreOffice_{{lo_version}}_Linux_x86-64_deb.tar.gz dest={{srcdir}}
+  get_url: url=http://download.documentfoundation.org/libreoffice/stable/{{lo_version}}/deb/{{larch}}/LibreOffice_{{lo_version}}_Linux_{{larch}}_deb.tar.gz dest={{srcdir}}
 
 - name: Uncompress LibreOffice 
-  unarchive: copy=no src={{srcdir}}/LibreOffice_{{lo_version}}_Linux_x86-64_deb.tar.gz dest={{srcdir}}/ owner=www-data
+  unarchive: copy=no src={{srcdir}}/LibreOffice_{{lo_version}}_Linux_{{larch}}_deb.tar.gz dest={{srcdir}}/ owner=www-data
 
 - name: Install LibreOffice
-  shell: cd {{srcdir}}/LibreOffice_{{lo_version}}.*_Linux_x86-64_deb/DEBS ; dpkg -i *.deb
+  shell: cd {{srcdir}}/LibreOffice_{{lo_version}}.*_Linux_{{larch}}_deb/DEBS ; dpkg -i *.deb
 
 - name: Install LibreOffice Server init script
   copy: src=mapmint/files/mapmint-libreoffice-server dest=/etc/init.d/mapmint-libreoffice-server

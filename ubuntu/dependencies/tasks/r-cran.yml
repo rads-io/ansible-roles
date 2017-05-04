@@ -2,12 +2,12 @@
 - name: Download r-cran packages
   get_url: url=https://cran.r-project.org/src/contrib/{{item}} dest={{srcdir}}/{{item}}
   with_items:
-      - e1071_1.6-7.tar.gz
-      - classInt_0.1-23.tar.gz
+      - e1071_1.6-8.tar.gz
+      - classInt_0.1-24.tar.gz
 
 - name: Install r-cran packages
   shell: cd {{srcdir}}; R CMD INSTALL {{item}}
   with_items:
-      - e1071_1.6-7.tar.gz
-      - classInt_0.1-23.tar.gz
+      - e1071_1.6-8.tar.gz
+      - classInt_0.1-24.tar.gz
 
