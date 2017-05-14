@@ -7,4 +7,4 @@ pgvers: 9.3
 indicators: false
 lo_version: 5.2.6
 arch: x86_64
-larch: x86_64
+larch: x86-64
