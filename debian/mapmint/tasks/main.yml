@@ -35,7 +35,7 @@
 
 - name: Build and Install QREncode ZOO-Services from ZOO-Project
   when: qrlibinstalled|success
-  shell: cd {{srcdir}}/zoo/zoo-project/zoo-services/qrencode && make; cp cgi-env/* {{srcdir}}/mapmint/mapmint-services/ ; cd .. ; done
+  shell: cd {{srcdir}}/zoo/zoo-project/zoo-services/qrencode && make; cp cgi-env/* {{srcdir}}/mapmint/mapmint-services/ ; cd .. ;
   register: zooqsinstalled
 
 - name: Build MapMint C ZOO-Services
