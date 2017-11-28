@@ -12,6 +12,11 @@
   shell: cd {{srcdir}}/zoo/thirds/cgic206 && sed "s:lib64:lib:g" -i Makefile && make && cd {{srcdir}}/zoo/zoo-project/zoo-kernel && autoconf && ./configure --with-mapserver={{srcdir}}/mapserver-6.2.0/ --with-python --with-pyvers=2.7 --with-js=/usr/ --with-xsltconfig=/usr/bin/xslt-config &&  sed "s:/usr/lib/x86_64-linux-gnu/libapr-1.la::g;s:/usr/lib/i386-linux-gnu/libapr-1.la::g" -i ZOOMakefile.opts && make &&  make install &&  ldconfig && cp zoo_loader.cgi ../../../mapmint/mapmint-services/
   register: zookinstalled
 
+- name: Build and Install GetStatus ZOO-Services from ZOO-Project
+  when: zookinstalled|success
+  shell: cd {{srcdir}}/zoo/zoo-project/zoo-services/utils/status && make && cp cgi-env/* {{srcdir}}/mapmint/mapmint-services/ 
+  register: zooostatusinstalled
+
 - name: Build and Install OGR ZOO-Services from ZOO-Project
   when: zookinstalled|success
   shell: cd {{srcdir}}/zoo/zoo-project/zoo-services/ogr && cd ogr2ogr && make && cp cgi-env/* {{srcdir}}/mapmint/mapmint-services/vector-converter/ && cd .. && cd base-vect-ops && make && cp cgi-env/* {{srcdir}}/mapmint/mapmint-services/vector-tools/
