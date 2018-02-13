@@ -1,0 +1,21 @@
+---
+- include: base-packages.yml
+
+- name: Create SRC direcrtory
+  when: packagesinstalled|success
+  file: dest={{srcdir}} mode=775 state=directory owner=www-data group=www-data
+  register: srcdircreated
+
+- include: r-cran.yml
+
+- name: Download MapMint
+  when: srcdircreated|success
+  git: repo=https://github.com/mapmint/mapmint.git
+       dest={{srcdir}}/mapmint
+       force=yes
+
+- file: src={{srcdir}}/mapmint/mapmint-services dest=/usr/lib/cgi-bin/mm state=link owner=root group=root
+
+#- include: mapserver.yml
+
+- include: mapcache.yml

@@ -1,0 +1,17 @@
+---
+- name: Restart LibreOffice Server
+#  service: name=mapmint-libreoffice-server state=restarted
+  shell: /etc/init.d/mapmint-libreoffice-server restart
+
+- name: Reload PostgreSQL
+  service: name=postgresql state=reloaded
+
+- name: Start Apache
+  service: name=apache2 state=started
+
+- name: Reload Apache
+  service: name=apache2 state=restarted
+
+- name: Update ldconfig
+  shell: ldconfig
+
