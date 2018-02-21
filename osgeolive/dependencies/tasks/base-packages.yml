@@ -46,4 +46,6 @@
       - libgeos-dev
       - libfcgi-dev
       - libmozjs185-dev
+      - libssh2-1-dev
+      - libmapserver-dev
   register: packagesinstalled
