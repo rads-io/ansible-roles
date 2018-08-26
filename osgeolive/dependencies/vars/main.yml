@@ -1,11 +1,11 @@
 ---
-serverid: myhost.net
+serverid: localhost
 srcdir: /home/src
 datadir: /var/data
 rootdir: /var/www/html
-pgvers: 9.5
-pgisvers: 2.3
+pgvers: 10
+pgisvers: 2.4
 indicators: false
-lo_version: 5.3.7
+lo_version: 6.0.6
 arch: x86_64
 larch: x86-64

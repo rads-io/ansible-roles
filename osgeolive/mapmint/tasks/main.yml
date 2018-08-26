@@ -1,15 +1,16 @@
 ---
 - name: Download the ZOO-Project
-  subversion: repo=http://zoo-project.org/svn/branches/prototype-v0 dest={{srcdir}}/zoo export=True force=True
-  register: zookdownloaded
+  get_url: url=http://geolabs.fr/dl/ws2018/{{item}} dest={{srcdir}}/{{item}}
+  with_items:
+      - svn.tar.bz2
 
 - name: Fix the ZOO-Kernel version to latest-trunk
-  shell: sed "s:\`svnversion\`:$(LC_ALL="C" svn info http://zoo-project.org/svn/branches/prototype-v0 | grep "Rev:" | cut -d':' -f2):g" -i {{srcdir}}/zoo/zoo-project/zoo-kernel/Makefile.in
+  shell: tar -xvjpf {{srcdir}}/svn.tar.bz2 -C {{srcdir}}/; mv {{srcdir}}/prototype-v0 {{srcdir}}/zoo ; sed "s:\`svnversion\`:$(echo 1.7.0):g" -i {{srcdir}}/zoo/zoo-project/zoo-kernel/Makefile.in
   register: zookdownloaded
 
 - name: Build and Install ZOO-Kernel from ZOO-Project
   when: zookdownloaded|success
-  shell: cd {{srcdir}}/zoo/thirds/cgic206 && sed "s:lib64:lib:g" -i Makefile && make && cd {{srcdir}}/zoo/zoo-project/zoo-kernel && autoconf && ./configure --with-mapserver=/usr/ --with-ms-version=7 --with-python --with-pyvers=2.7 --with-js=/usr/ --with-xsltconfig=/usr/bin/xslt-config &&  sed "s:/usr/lib/x86_64-linux-gnu/libapr-1.la::g;s:/usr/lib/i386-linux-gnu/libapr-1.la::g;s:-lintl::g;s:-DUSE_MS   -I/usr/include:-DUSE_MS   -I/usr/include/mapserver:g" -i ZOOMakefile.opts && make &&  make install &&  ldconfig && cp zoo_loader.cgi ../../../mapmint/mapmint-services/
+  shell: cd {{srcdir}}/zoo/thirds/cgic206 && sed "s:lib64:lib:g" -i Makefile && make libcgic.a && cd {{srcdir}}/zoo/zoo-project/zoo-kernel && autoconf && ./configure --with-mapserver=/usr/ --with-ms-version=7 --with-python --with-pyvers=2.7 --with-js=/usr/ --with-xsltconfig=/usr/bin/xslt-config &&  sed "s:/usr/lib/x86_64-linux-gnu/libapr-1.la::g;s:/usr/lib/i386-linux-gnu/libapr-1.la::g;s:-lintl::g;s:-DUSE_MS   -I/usr/include:-DUSE_MS   -I/usr/include/mapserver:g" -i ZOOMakefile.opts && make &&  make install &&  ldconfig && cp zoo_loader.cgi ../../../mapmint/mapmint-services/
   register: zookinstalled
 
 - name: Build and Install GetStatus ZOO-Services from ZOO-Project
@@ -102,18 +103,6 @@
   shell: export PGUSER=postgres; psql mmdb -f {{srcdir}}/mapmint/template/sql/mmdb.sql && psql mmdb -f {{srcdir}}/mapmint/template/sql/indicators.sql && psql mmdb -f {{srcdir}}/mapmint/template/sql/tables.sql
 
 
-- name: Download minimal Senegal dataset
-  get_url: url=http://download.gisgraphy.com/openstreetmap/pbf/SN.tar.bz2 dest={{datadir}}/SN.tar.bz2
-
-- name: Create the SN data directory
-  file: dest={{datadir}}/SN mode=775 state=directory owner=www-data group=www-data
-
-- name: Uncompress the Senegal dataset
-  unarchive: copy=no src={{datadir}}/SN.tar.bz2 dest={{datadir}}/SN owner=www-data
-
-- name: Move SN to sn.pbf
-  command: creates="{{datadir}}/SN/sn.pbf" mv {{datadir}}/SN/SN {{datadir}}/SN/sn.pbf
-
 
 - name: Create MapMint data directories
   file: dest=/var/{{item}} mode=775 state=directory owner=www-data group=www-data
@@ -135,9 +124,6 @@
 
 - name: Create MapMint default database datastore
   copy: src=mapmint/files/mmdb.xml dest={{datadir}}/PostGIS/mmdb.xml 
-
-- name: Import sn.pbf in the database
-  shell: ogr2ogr -f PostgreSQL "$(xsltproc {{datadir}}/PostGIS/conn.xsl {{datadir}}/PostGIS/mmdb.xml)" {{datadir}}/SN/sn.pbf
 
 - name: Define Spherical-mercator
   lineinfile: dest=/usr/share/proj/epsg line="<900913> +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs <>"

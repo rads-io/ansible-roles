@@ -3,8 +3,10 @@
   apt: update_cache=yes
 
 - name: Install Dependencies packages
-  apt: pkg={{item}} state=installed
+  apt: pkg={{item}} state=present
   with_items:
+      - gfortran
+      - libssl-dev
       - flex
       - bison
       - libxml2
@@ -12,7 +14,6 @@
       - openssl
       - autoconf
       - apache2
-      - python-software-properties
       - subversion
       - git
       - python-cheetah
@@ -24,7 +25,7 @@
       - postgis
       - r-base
       - r-cran-class
-      - postgresql-{{pgvers}}-postgis-2.2
+      - postgresql-{{pgvers}}-postgis-{{pgisvers}}
       - xsltproc
       - cmake
       - gdal-bin
@@ -41,7 +42,7 @@
       - libcairo2-dev
       - apache2-dev
       - libproj-dev
-      - libgdal1-dev
+      - libgdal-dev
       - libfreetype6-dev
       - libgeos-dev
       - libfcgi-dev
