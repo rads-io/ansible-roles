@@ -103,6 +103,8 @@
   shell: export PGUSER=postgres; psql mmdb -f {{srcdir}}/mapmint/template/sql/mmdb.sql && psql mmdb -f {{srcdir}}/mapmint/template/sql/indicators.sql && psql mmdb -f {{srcdir}}/mapmint/template/sql/tables.sql
 
 
+- shell: rm /var/www/html/tmp
+
 
 - name: Create MapMint data directories
   file: dest=/var/{{item}} mode=775 state=directory owner=www-data group=www-data
@@ -113,6 +115,7 @@
       - data/georeferencer_maps
       - data/fonts
       - data/fonts/images
+      - www/html/tmp
       - www/html/tmp/descriptions
       - www/html/pm/styles
       - cache/zoo-project
@@ -133,7 +136,7 @@
   with_items:
       - "{{datadir}}"
       - "{{rootdir}}/pm/styles"
-#      - "{{rootdir}}/tmp"
+      - "{{rootdir}}/tmp"
 
 - name: Create the ZOO-Kernel main.cfg
   template: src=main.cfg.j2 dest=/usr/lib/cgi-bin/mm/main.cfg owner=www-data group=www-data

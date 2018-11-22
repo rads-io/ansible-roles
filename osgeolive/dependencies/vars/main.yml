@@ -6,6 +6,6 @@ rootdir: /var/www/html
 pgvers: 10
 pgisvers: 2.4
 indicators: false
-lo_version: 6.0.6
+lo_version: 6.0.7
 arch: x86_64
 larch: x86-64
