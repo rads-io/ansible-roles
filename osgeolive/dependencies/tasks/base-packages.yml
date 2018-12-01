@@ -2,6 +2,11 @@
 - name: Update APT index
   apt: update_cache=yes
 
+- name: Remove few packages if present
+  apt: pkg={{item}} state=absent
+  with_items:
+      - libmapserver2
+
 - name: Install Dependencies packages
   apt: pkg={{item}} state=present
   with_items:
@@ -48,5 +53,8 @@
       - libfcgi-dev
       - libmozjs185-dev
       - libssh2-1-dev
-      - libmapserver-dev
+      - libfribidi-dev
+      - protobuf-c-compiler
+      - libprotobuf-c-dev
+      - swig
   register: packagesinstalled

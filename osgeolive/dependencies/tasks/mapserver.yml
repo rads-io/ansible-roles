@@ -1,8 +1,8 @@
 ---
-- name: Download MapServer-6.2.0
-  get_url: url=http://download.osgeo.org/mapserver/mapserver-6.2.0.tar.gz dest={{srcdir}}/mapserver-6.2.0.tar.gz
+- name: Download MapServer-7.2.1
+  get_url: url=http://download.osgeo.org/mapserver/mapserver-7.2.1.tar.gz dest={{srcdir}}/mapserver-7.2.1.tar.gz
 
-- name: Build and Install MapServer-6.2.0 for MapMint
+- name: Build and Install MapServer-7.2.1 for MapMint
   when: srcdircreated|success
-  shell: cd {{srcdir}} && tar -xf mapserver-6.2.0.tar.gz && cd mapserver-6.2.0 && ./configure --with-wfs --with-python --with-freetype=/usr/ --with-ogr --with-gdal --with-proj --with-geos --with-cairo --with-kml --with-wmsclient --with-wfsclient --with-wcs --with-sos --with-python=/usr/bin/python2.7 --without-gif --with-apache-module --with-apxs=/usr/bin/apxs2 --with-apr-config=/usr/bin/apr-1-config --enable-python-mapscript --with-zlib --prefix=/usr/ && sed "s:mapserver-6.2.0-mm/::g;s:mapserver-6.2.0/::g" -i ../mapmint/thirds/ms-6.2.0-full.patch && patch -p0 < ../mapmint/thirds/ms-6.2.0-full.patch && make && make install && cp /usr/bin/mapserv /usr/lib/cgi-bin/mm/mapserv.cgi
+  shell: cd {{srcdir}} && tar -xf mapserver-7.2.1.tar.gz && cd mapserver-7.2.1 && mkdir build && cd build && cmake .. -DWITH_PYTHON=1 -DWITH_CLIENT_WMS=1 -DWITH_CLIENT_WFS=1 -DCMAKE_PREFIX_PATH=/usr/ -DWITH_KML=1 -DCMAKE_INSTALL_PREFIX=/usr && make && make install
   register: mapserverinstalled
