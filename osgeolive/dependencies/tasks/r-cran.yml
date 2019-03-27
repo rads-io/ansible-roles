@@ -2,7 +2,7 @@
 - name: Download r-cran packages
   get_url: url=https://cran.r-project.org/src/contrib/{{item}} dest={{srcdir}}/{{item}}
   with_items:
-      - e1071_1.7-0.1.tar.gz
+      - e1071_1.7-1.tar.gz
       - classInt_0.3-1.tar.gz
 
 - name: Install r-cran packages
