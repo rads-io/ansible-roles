@@ -23,7 +23,7 @@
       - git
       - python-cheetah
       - cssmin
-      - python-psycopg2
+      - python3-psycopg2
       - python-gdal
       - python-libxslt1
       - postgresql
