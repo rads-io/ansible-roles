@@ -3,6 +3,6 @@
   get_url: url=http://download.osgeo.org/mapserver/mapserver-7.2.1.tar.gz dest={{srcdir}}/mapserver-7.2.1.tar.gz
 
 - name: Build and Install MapServer-7.2.1 for MapMint
-  when: srcdircreated|success
+  when: srcdircreated is success
   shell: cd {{srcdir}} && tar -xf mapserver-7.2.1.tar.gz && cd mapserver-7.2.1 && rm -rf build && mkdir build && cd build && cmake .. -DWITH_PYTHON=1 -DWITH_CLIENT_WMS=1 -DWITH_CLIENT_WFS=1 -DCMAKE_PREFIX_PATH=/usr/ -DWITH_KML=1 -DCMAKE_INSTALL_PREFIX=/usr && make && make install
   register: mapserverinstalled

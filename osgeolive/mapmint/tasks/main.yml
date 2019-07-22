@@ -9,22 +9,22 @@
   register: zookdownloaded
 
 - name: Build and Install ZOO-Kernel from ZOO-Project
-  when: zookdownloaded|success
+  when: zookdownloaded is success
   shell: cd {{srcdir}}/zoo/thirds/cgic206 && sed "s:lib64:lib:g" -i Makefile && make libcgic.a && cd {{srcdir}}/zoo/zoo-project/zoo-kernel && autoconf && ./configure --with-mapserver=/usr/ --with-ms-version=7 --with-python --with-pyvers=3.6 --with-js=/usr/ --with-xsltconfig=/usr/bin/xslt-config &&  sed "s:/usr/lib/x86_64-linux-gnu/libapr-1.la::g;s:/usr/lib/i386-linux-gnu/libapr-1.la::g;s:-lintl::g;s:-DUSE_MS   -I/usr/include:-DUSE_MS   -I/usr/include/mapserver:g" -i ZOOMakefile.opts && make &&  make install &&  ldconfig && cp zoo_loader.cgi ../../../mapmint/mapmint-services/
   register: zookinstalled
 
 - name: Build and Install GetStatus ZOO-Services from ZOO-Project
-  when: zookinstalled|success
+  when: zookinstalled is success
   shell: cd {{srcdir}}/zoo/zoo-project/zoo-services/utils/status && make && cp cgi-env/* {{srcdir}}/mapmint/mapmint-services/ 
   register: zooostatusinstalled
 
 - name: Build and Install OGR ZOO-Services from ZOO-Project
-  when: zookinstalled|success
+  when: zookinstalled is success
   shell: cd {{srcdir}}/zoo/zoo-project/zoo-services/ogr && cd ogr2ogr && sed "s:free(pszDialect:free((void*)pszDialect:g" -i service.c && make && cp cgi-env/* {{srcdir}}/mapmint/mapmint-services/vector-converter/ && cd .. && cd base-vect-ops && make && cp cgi-env/* {{srcdir}}/mapmint/mapmint-services/vector-tools/
   register: zooosinstalled
 
 - name: Build and Install GDAL ZOO-Services from ZOO-Project
-  when: zooosinstalled|success
+  when: zooosinstalled is success
   shell: cd {{srcdir}}/zoo/zoo-project/zoo-services/gdal && for i in contour dem grid profile translate warp ; do echo $i ; cd $i ; make; cp cgi-env/* {{srcdir}}/mapmint/mapmint-services/raster-tools/ ; cd .. ; done
   register: zoogsinstalled
 
@@ -40,12 +40,12 @@
   register: qrlibinstalled
 
 - name: Build and Install QREncode ZOO-Services from ZOO-Project
-  when: qrlibinstalled|success
+  when: qrlibinstalled is success
   shell: cd {{srcdir}}/zoo/zoo-project/zoo-services/qrencode && make; cp cgi-env/* {{srcdir}}/mapmint/mapmint-services/ ; cd .. ;
   register: zooqsinstalled
 
 - name: Build MapMint C ZOO-Services
-  when: zooqsinstalled|success
+  when: zooqsinstalled is success
   shell: cd {{srcdir}}/mapmint/mapmint-services; for i in *-src ; do echo $i; cd $i; autoconf; ./configure --with-zoo-kernel={{srcdir}}/zoo/zoo-project/zoo-kernel --with-mapserver={{srcdir}}/mapserver-6.2.0 ; make ; cd .. ; done
   register: zoomcsinstalled
 
@@ -99,7 +99,7 @@
     - Reload PostgreSQL
 
 - name: Create initial PG Database
-  when: pgrestarted|success
+  when: pgrestarted is success
   shell: export PGUSER=postgres; psql mmdb -f {{srcdir}}/mapmint/template/sql/mmdb.sql && psql mmdb -f {{srcdir}}/mapmint/template/sql/indicators.sql && psql mmdb -f {{srcdir}}/mapmint/template/sql/tables.sql
 
 
