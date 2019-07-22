@@ -43,7 +43,7 @@
       - zlib1g-dev
       - libxslt1-dev
       - libxml2-dev
-      - python-dev
+      - python3-dev
       - python-setuptools
       - libcairo2-dev
       - apache2-dev
