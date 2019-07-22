@@ -10,6 +10,7 @@
 - name: Install Dependencies packages
   apt: pkg={{item}} state=present
   with_items:
+      - python3-pip
       - gfortran
       - libssl-dev
       - flex
@@ -58,3 +59,6 @@
       - libprotobuf-c-dev
       - swig
   register: packagesinstalled
+
+- name: Install Python 3.x package Cheetah 3 for templates
+  shell: pip3 install Cheetah3
