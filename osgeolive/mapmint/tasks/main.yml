@@ -103,7 +103,7 @@
   shell: export PGUSER=postgres; psql mmdb -f {{srcdir}}/mapmint/template/sql/mmdb.sql && psql mmdb -f {{srcdir}}/mapmint/template/sql/indicators.sql && psql mmdb -f {{srcdir}}/mapmint/template/sql/tables.sql
 
 
-- shell: rm /var/www/html/tmp
+- shell: rm -rf /var/www/html/tmp
 
 
 - name: Create MapMint data directories
