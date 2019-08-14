@@ -1,6 +1,6 @@
 ---
 - name: Download MapCache
-#  when: mapserverinstalled|success
+#  when: mapserverinstalled is success
   git: repo=https://github.com/mapserver/mapcache.git
        dest={{srcdir}}/mapcache
   register: mapcachedownloaded
@@ -8,7 +8,7 @@
 - copy: src=dependencies/files/etc/ld.so.conf.d/zoo-project.conf dest=/etc/ld.so.conf.d/zoo-project.conf
 
 - name: Build and Install MapCache
-  when: mapcachedownloaded|success
+  when: mapcachedownloaded is success
   shell: cd {{srcdir}}/mapcache/ ; cmake . && make && make install && cp /usr/local/bin/mapcache.fcgi /usr/lib/cgi-bin/mm/
   notify:
     - Update ldconfig

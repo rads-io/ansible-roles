@@ -2,14 +2,14 @@
 - include: base-packages.yml
 
 - name: Create SRC direcrtory
-  when: packagesinstalled|success
+  when: packagesinstalled is success
   file: dest={{srcdir}} mode=775 state=directory owner=www-data group=www-data
   register: srcdircreated
 
 - include: r-cran.yml
 
 - name: Download MapMint
-  when: srcdircreated|success
+  when: srcdircreated is success
   git: repo=https://github.com/mapmint/mapmint.git
        dest={{srcdir}}/mapmint
        force=yes
