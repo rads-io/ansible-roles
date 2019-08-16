@@ -36,3 +36,4 @@ file_path = r"dependencies/tasks/r-cran.yml"
 os.system(f'sed --in-place "s/{old_e_ver}/{new_e_ver}/g" "{file_path}"')
 os.system(f'sed --in-place "s/{old_classInt}/{new_classInt}/g" "{file_path}"')
 
+print("STATUS: successfully updated the versions :)")
