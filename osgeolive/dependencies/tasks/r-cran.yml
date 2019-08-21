@@ -3,11 +3,11 @@
   get_url: url=https://cran.r-project.org/src/contrib/{{item}} dest={{srcdir}}/{{item}}
   with_items:
       - e1071_1.7-2.tar.gz
-      - classInt_0.3-3.tar.gz
+      - classInt_0.4-1.tar.gz
 
 - name: Install r-cran packages
   shell: cd {{srcdir}}; R CMD INSTALL {{item}}
   with_items:
       - e1071_1.7-2.tar.gz
-      - classInt_0.3-3.tar.gz
+      - classInt_0.4-1.tar.gz
 

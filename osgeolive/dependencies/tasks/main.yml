@@ -10,7 +10,7 @@
 
 - name: Download MapMint
   when: srcdircreated is success
-  git: repo=https://github.com/fenilgmehta/mapmint.git
+  git: repo=https://github.com/mapmint/mapmint.git
        dest={{srcdir}}/mapmint
        force=yes
 

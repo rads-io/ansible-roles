@@ -1,8 +1,8 @@
 ---
 - name: Download the ZOO-Project
-  get_url: url=http://geolabs.fr/dl/ws2018/{{item}} dest={{srcdir}}/{{item}}
-  with_items:
-      - svn.tar.bz2
+  subversion:
+          repo: http://svn.zoo-project.org/svn/trunk
+          dest: "{{srcdir}}/zoo"
 
 - name: Fix the ZOO-Kernel version to latest-trunk
   shell: tar -xvjpf {{srcdir}}/svn.tar.bz2 -C {{srcdir}}/; mv {{srcdir}}/prototype-v0 {{srcdir}}/zoo ; sed "s:\`svnversion\`:$(echo 1.7.0):g" -i {{srcdir}}/zoo/zoo-project/zoo-kernel/Makefile.in
@@ -103,7 +103,7 @@
   shell: export PGUSER=postgres; psql mmdb -f {{srcdir}}/mapmint/template/sql/mmdb.sql && psql mmdb -f {{srcdir}}/mapmint/template/sql/indicators.sql && psql mmdb -f {{srcdir}}/mapmint/template/sql/tables.sql
 
 
-- shell: rm -rf /var/www/html/tmp
+- shell: rm -rf /var/www/html/tmp /var/data/cache
 
 
 - name: Create MapMint data directories
@@ -113,6 +113,7 @@
       - data/dirs
       - data/public_maps
       - data/georeferencer_maps
+      - data/cache
       - data/fonts
       - data/fonts/images
       - www/html/tmp
@@ -175,4 +176,4 @@
   notify:
     - Restart LibreOffice Server
 
-- shell: ln -s /usr/bin/mapserv /usr/lib/cgi-bin/mm/mapserv.cgi && cp /home/src/mapmint/mapmint-ui/img/mapmint-logo-small.png /var/data/fonts/images/
+- shell: rm -f /usr/lib/cgi-bin/mm/mapserv.cgi ; ln -s /usr/bin/mapserv /usr/lib/cgi-bin/mm/mapserv.cgi && cp /home/src/mapmint/mapmint-ui/img/mapmint-logo-small.png /var/data/fonts/images/
