@@ -57,4 +57,5 @@
       - protobuf-c-compiler
       - libprotobuf-c-dev
       - swig
+      - python-cssmin
   register: packagesinstalled
