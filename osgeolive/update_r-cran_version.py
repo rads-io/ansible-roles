@@ -28,7 +28,7 @@ for file in res:
 print(f"STATUS:\n\t{res_e_ver}\n\t{res_class_int}")
 
 old_e_ver = "      - e1071_1.7-2.tar.gz"
-old_classInt = "      - classInt_0.3-3.tar.gz"
+old_classInt = "      - classInt_0.4-1.tar.gz"
 new_e_ver = f"      - {res_e_ver}"
 new_classInt = f"      - {res_class_int}"
 file_path = r"dependencies/tasks/r-cran.yml"
