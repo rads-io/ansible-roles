@@ -16,6 +16,10 @@ through ssh, the host where to deploy the MapMint instance.
 
 ```sh
 cd osgeolive
-python "update_r-cran_version.py"
+
+pip3 install beautifulsoup4
+python3 "update_r-cran_version.py"
+python3 "update_lo_version.py"
+
 ansible-playbook -s server.yml -u root
 ```
