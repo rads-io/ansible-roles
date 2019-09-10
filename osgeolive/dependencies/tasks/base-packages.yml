@@ -23,7 +23,7 @@
       - apache2
       - subversion
       - git
-      - cssmin
+      - python3-cssmin
       - python3-psycopg2
       - gdal-bin
       - python3-gdal
@@ -61,4 +61,4 @@
   register: packagesinstalled
 
 - name: Install Python 3.x package Cheetah 3 for templates
-  shell: python3 -m pip install wheel Cheetah3 rpy2 mod_wsgi cssmin
+  shell: python3 -m pip install wheel Cheetah3 rpy2 mod_wsgi 
