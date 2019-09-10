@@ -61,4 +61,4 @@
   register: packagesinstalled
 
 - name: Install Python 3.x package Cheetah 3 for templates
-  shell: python3 -m pip install wheel Cheetah3 rpy2 mod_wsgi
+  shell: python3 -m pip install wheel Cheetah3 rpy2 mod_wsgi cssmin
