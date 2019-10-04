@@ -12,7 +12,7 @@
       - openssl
       - autoconf
       - apache2
-      - python-software-properties
+        #- python-software-properties
       - subversion
       - git
       - python-cheetah
@@ -40,7 +40,7 @@
       - libcairo2-dev
       - apache2-dev
       - libproj-dev
-      - libgdal1-dev
+      - libgda1-dev
       - libfreetype6-dev
       - libgeos-dev
       - libfcgi-dev
